@@ -26,9 +26,7 @@ function database_creation()
   $table = "CREATE TABLE " . $site_details . "
   (
   id int NOT NULL,
-  prompt text DEFAULT NULL,
-  answer text DEFAULT NULLL,
-  response varchar(255) DEFAULT NULL,
+  prompt_data text DEFAULT NULL,
   created_at datetime NOT NULL DEFAULT current_timestamp()
   PRIMARY KEY (id)
   ) $charset;
@@ -41,7 +39,7 @@ function database_creation()
 
 register_activation_hook(__FILE__, 'database_creation');
 
-function save_prompt($prompt, $answer, $response)
+function save_prompt($prompt_data)
 {
 
   global $wpdb;
@@ -52,9 +50,7 @@ function save_prompt($prompt, $answer, $response)
     $wpdb->prefix . 'risks',
     [
       'id' => $get_id + 1,
-      'prompt' => $prompt,
-      'answer' => $answer,
-      'response' => $response
+      'prompt_data' => $prompt_data,
     ]
   );
 }
@@ -88,38 +84,66 @@ add_action("admin_menu", "addMenu");
 function addMenu()
 {
   add_menu_page("Welcome", "RiskCurb Framework", 4, "get-started", "exampleMenu");
-  add_submenu_page("get-started", "RiskCurb Option 1", "Get Started", 4, "getstarted", "option1");
+  add_submenu_page("get-started", "RiskCurb Option 3", "Manage Prompts", 4, "Manage Prompts Admin", "option3");
   add_submenu_page("get-started", "RiskCurb Option 2", "Reports", 4, "Reports", "option2");
-  add_submenu_page("get-started", "RiskCurb Option 3", "Manage Sites", 4, "create-new-site", "option3");
 }
 function exampleMenu()
 {
+  if(isset($_POST['prompt_data'])){
+    save_prompt($_POST['prompt_data']);
+    exit(json_encode(array('status'=>200,'message'=>'data saved successfully')));
+  }
+
   $html = "";
-  $html .= "
+  $html .= '
+    
+    <div class="panel panel-primary">
+    <div class="col-md-6 col-lg-5">
+      <div class="row"></div>
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="maillist">
+          <table class="mailmessages table">
+          <p>Loaded Questions</p>
+            <tbody class="messages_wrapper">
+            
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-7">
+      <div class="maillist">
+      <p>Loaded Answers</p>
+
+       <div class="maillistmsgs">
+      
+        </div>
+        <form class="reply_form">
+        <div class="form-group">
+          <label>Quick Replay</label>
+          <textarea class="form-control answer_input" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Answer</button>
+        
+        <button type="reset" class="btn btn-default">Reset</button>
+        
+        </form>
+        <br />
+        <br />
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
   
-    ";
+    ';
+
   echo $html;
-  echo "Thank you for using Riskcurb membership plugin contact details gene@curbsoftware.com";
 }
 function option1()
 {
 
-  $html = "";
-  $html .= '
-    <script type="text/javascript">
-    const genes = document.querySelectorAll(".gene");
-    genes.forEach((gene)=>{
-    alert("tuby")
-        gene.innerHTML = "nfdhinfdinbfd";
-    })
-    </script>
-    <div class="gene">
-    Gene
-    </div>
-    ';
-
-  echo $html;
-  echo "Getting started page for plugin ";
+  
 }
 function option2()
 {
@@ -133,6 +157,48 @@ function option2()
 }
 function option3()
 {
+ 
+  $html = "";
+  $html .= '
+    
+    <div class="panel panel-primary">
+    <div class="col-md-6 col-lg-5">
+      <div class="row"></div>
+      <div class="clearfix"></div>
+      <div class="row">
+        <div class="maillist">
+          <table class="mailmessages table">
+            <tbody class="prompts_wrapper">
+            
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-7">
+      <div class="maillist">
+       <div class="review_prompt">
+      
+        </div>
+        <form class="add_prompt_forms">
+        <div class="form-group">
+          <label>Quick Add Prompt</label>
+          <textarea class="form-control add_prompt_forms_input" placeholder="please enter first prompt" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Prompt</button>
+        
+        <button type="reset" class="btn btn-default">Reset</button>
+        
+        </form>
+        <br />
+        <br />
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
   
+    ';
+
+  echo $html;
 }
 
