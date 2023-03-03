@@ -3,7 +3,7 @@ $(document).ready(function () {
   const connectToSocket = () => {
     try{
     // let closeSocket = io("http://localhost:5000");
-    let closeSocket = io("http://localhost:5000");
+    let closeSocket = io("https://connectcurb-app.onrender.com/");
     socket = closeSocket;
     return () => {
       closeSocket?.close();
