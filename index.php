@@ -85,7 +85,7 @@ function addMenu()
 {
   add_menu_page("Welcome", "RiskCurb Framework", 4, "get-started", "exampleMenu");
   add_submenu_page("get-started", "RiskCurb Option 3", "Manage Prompts", 4, "Manage Prompts Admin", "option3");
-  add_submenu_page("get-started", "RiskCurb Option 2", "Reports", 4, "Reports", "option2");
+  // add_submenu_page("get-started", "RiskCurb Option 2", "Reports", 4, "Reports", "option2");
 }
 function exampleMenu()
 {
@@ -180,12 +180,19 @@ function option3()
        <div class="review_prompt">
       
         </div>
-        <form class="add_prompt_forms">
+        <form class="add_prompt_formsone">
         <div class="form-group">
           <label>Quick Add Prompt</label>
+          <div class="lists_html">
+
+          </div>
+          <div class="row">
+        <button type="reset" class="btn btn-warning add_list_array">Add List</button>
+        <button type="reset" class="btn btn-success add_prompt_again">Add Prompt</button>
+          </div>
           <textarea class="form-control add_prompt_forms_input" placeholder="please enter first prompt" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Add Prompt</button>
+        <button type="submit" class="btn btn-primary submit_prompt_btn">Add Prompt</button>
         
         <button type="reset" class="btn btn-default">Reset</button>
         
